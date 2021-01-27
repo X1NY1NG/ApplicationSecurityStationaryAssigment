@@ -346,6 +346,9 @@
                 document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter password correctly";
             }
             if (document.getElementById("<%=tbfirstname.ClientID %>").value != "") {
+                document.getElementById("<%=tbfirstname.ClientID %>").value = encodeURI(document.getElementById("<%=tbfirstname.ClientID %>").value)
+                console.log(document.getElementById("<%=tbfirstname.ClientID %>").value)
+                return false;
                 if (document.getElementById("<%=tblastname.ClientID %>").value != "") {
                     if (document.getElementById("<%=tbbirthdate.ClientID %>").value != "") {
                         if (document.getElementById("<%=tbnameoncard.ClientID %>").value != "") {
