@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -121,14 +122,25 @@ namespace ApplicationSecurityStationaryAssigment
             {
                 Label3.Text = Label3.Text + "First name is required"+"<br/>";
                 Label3.ForeColor = Color.Red;
-               
 
+
+
+            }
+            else
+            {
+                
+                System.Diagnostics.Debug.WriteLine(tbfirstname.Text);
             }
             if (String.IsNullOrEmpty(tblastname.Text))
             {
                 Label3.Text = Label3.Text + "Last name is required" + "<br/>";
                 Label3.ForeColor = Color.Red;
                 
+            }
+            else
+            {
+                tblastname.Text = HttpUtility.HtmlEncode(tblastname.Text);
+                System.Diagnostics.Debug.WriteLine(tblastname.Text);
             }
             if (String.IsNullOrEmpty(tbemail.Text))
             {
@@ -235,6 +247,18 @@ namespace ApplicationSecurityStationaryAssigment
                 Label3.Text = Label3.Text + "Name on credit card is required" + "<br/>"; ;
                 Label3.ForeColor = Color.Red;
             }
+            else
+            {
+                if (Regex.IsMatch(tbnameoncard.Text, "[^a-zA-Z]"))
+                {
+                    Label3.Text = Label3.Text + "Please Enter Valid Credit Card Name" + "<br/>";
+                }
+                else
+                {
+                    
+                }
+            }
+            
             
             
 
@@ -303,6 +327,9 @@ namespace ApplicationSecurityStationaryAssigment
 
                         SHA512Managed hashing = new SHA512Managed();
                         string pwdwithsalt = tbpassword.Text + salt;
+                        byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(tbpassword.Text));
+                        string stringplainHash = Convert.ToBase64String(plainHash);
+
                         byte[] hashwithsalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdwithsalt));
                         var finalhash = Convert.ToBase64String(hashwithsalt);
 
@@ -311,12 +338,19 @@ namespace ApplicationSecurityStationaryAssigment
                         Key = cipher.Key;
                         IV = cipher.IV;
 
+                        DateTime thetimenow = DateTime.Now;
+                        DateTime minimumlockout = thetimenow.AddMinutes(5);
+
+                        DateTime maximumlockout = thetimenow.AddMinutes(15);
+                        var theuuid = Guid.NewGuid().ToString();
+
+
                         try
                         {
 
                             using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                             {
-                                using (SqlCommand cmd = new SqlCommand("INSERT INTO thedetails VALUES(@FirstName,@LastName,@Passwordhash,@Passwordsalt,@Dateofbirth,@IV,@Key,@Cardnumber,@EmailAddress,@Nameoncard,@CVV,@Monthexpiry,@yearexpiry) "))
+                                using (SqlCommand cmd = new SqlCommand("INSERT INTO thedetails VALUES(@FirstName,@LastName,@Passwordhash,@Passwordsalt,@Dateofbirth,@IV,@Key,@Cardnumber,@EmailAddress,@Nameoncard,@CVV,@Monthexpiry,@yearexpiry,@status,@accountendlocktime,@failedattempts,@listofpasswords,@minimumpasswordage,@maximumpasswordage,@VerifiedAccount,@AuthenticationToken) "))
                                 {
                                     using (SqlDataAdapter sda = new SqlDataAdapter())
                                     {
@@ -335,11 +369,21 @@ namespace ApplicationSecurityStationaryAssigment
                                         cmd.Parameters.AddWithValue("@CVV", Convert.ToBase64String(encryptData(tbcvv.Text)));
                                         cmd.Parameters.AddWithValue("@Monthexpiry", Convert.ToBase64String(encryptData(tbmonth.Text)));
                                         cmd.Parameters.AddWithValue("@yearexpiry", Convert.ToBase64String(encryptData(tbyear.Text)));
+                                        cmd.Parameters.AddWithValue("@status","enabled");
+                                        cmd.Parameters.AddWithValue("@accountendlocktime", "");
+                                        cmd.Parameters.AddWithValue("@failedattempts",0 );
+                                        cmd.Parameters.AddWithValue("@listofpasswords",stringplainHash+",");
+                                        cmd.Parameters.AddWithValue("@minimumpasswordage", minimumlockout);
+                                        cmd.Parameters.AddWithValue("@maximumpasswordage", maximumlockout);
+                                        cmd.Parameters.AddWithValue("@VerifiedAccount", "No");
+                                        cmd.Parameters.AddWithValue("@AuthenticationToken",theuuid);
                                         cmd.Connection = con;
                                         con.Open();
                                         cmd.ExecuteNonQuery();
                                         con.Close();
-                                        Response.Redirect("Loginpage.aspx", false);
+
+
+                                        
 
 
                                     }
@@ -348,8 +392,41 @@ namespace ApplicationSecurityStationaryAssigment
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Something went wrong, Please try again later");
+                            System.Diagnostics.Debug.WriteLine(ex.ToString());
+                            Label3.Text = "Error";
                         }
+
+                        SmtpClient client = new SmtpClient();
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.EnableSsl = true;
+                        client.Host = "smtp.gmail.com";
+                        client.Port = 587;
+
+                        // setup Smtp authentication
+                        System.Net.NetworkCredential credentials =
+                        new System.Net.NetworkCredential("TohXinYingassignment@gmail.com", "190376A190376A");
+                        client.UseDefaultCredentials = false;
+                        client.Credentials = credentials;
+
+                        MailMessage msg = new MailMessage();
+                        msg.From = new MailAddress("TohXinYingassignment@gmail.com");
+                        msg.To.Add(new MailAddress(tbemail.Text));
+
+                        msg.Subject = "This is a test Email subject";
+                        msg.IsBodyHtml = true;
+                        msg.Body = string.Format("<html><head></head><body><a href='https://localhost:44354/verifyemail.aspx?param1=" + theuuid+"'>Click here</a></body>");
+
+                        try
+                        {
+                            client.Send(msg);
+                            System.Diagnostics.Debug.WriteLine("success");
+
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.ToString());
+                        }
+                        Response.Redirect("Loginpage.aspx", false);
                     }
 
 
@@ -376,7 +453,7 @@ namespace ApplicationSecurityStationaryAssigment
 
             }catch(Exception ex)
             {
-                throw new Exception(ex.ToString());
+                Label3.Text = "Error";
             }
             finally
             {

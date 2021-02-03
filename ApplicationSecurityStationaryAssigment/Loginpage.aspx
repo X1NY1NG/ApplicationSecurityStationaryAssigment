@@ -20,7 +20,7 @@
             <br />
             <asp:Label ID="lbfeedback" runat="server"></asp:Label>
             <br />
-            <asp:Button ID="submitbutton" runat="server" OnClick="submitbutton_Click" Text="submit" />
+            <asp:Button ID="submitbutton" runat="server" OnClick="submitbutton_Click" Text="submit" OnClientClick="return SomeMethod();" />
             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
         </div>
     </form>
@@ -30,6 +30,47 @@
                 document.getElementById("g-recaptcha-response").value = token;
             });
         });
+
+        function SomeMethod() {
+            
+            if (document.getElementById("<%=tbemail.ClientID %>").value != "" ) {
+                var theemailformat = /^\w+[\+\.\w-]*@([\w-]+\.)*\w+[\w-]*\.([a-z]{2,4}|\d+)$/i;
+                var theemail = document.getElementById("<%=tbemail.ClientID %>").value;
+                if (theemailformat.test(theemail)) {
+
+                } else {
+                    document.getElementById("<%=lbfeedback.ClientID %>").innerHTML = "Invalid Email Address format";
+                    return false;
+                }
+            } else {
+                document.getElementById("<%=lbfeedback.ClientID %>").innerHTML = "Please Enter Email";
+                return false;
+            }
+            if (document.getElementById("<%=tbpassword.ClientID %>").value != "") {
+                var thepasswordformat = /([<>"/'#&]{1,100})$/;
+                var thepassname = document.getElementById("<%=tbpassword.ClientID %>").value;
+                if (thepasswordformat.test(thepassname)) {
+                    document.getElementById("<%=lbfeedback.ClientID %>").innerHTML = "Invalid Password format";
+                    return false;
+                } else {
+
+                }
+
+            } else {
+                document.getElementById("<%=lbfeedback.ClientID %>").innerHTML = "Please Enter Password";
+                return false;
+            }
+
+
+
+
+            
+           
+
+
+        }
+        
+        
     </script>
 </body>
 </html>

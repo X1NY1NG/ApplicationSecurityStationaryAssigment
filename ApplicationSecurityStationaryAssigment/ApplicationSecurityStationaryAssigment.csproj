@@ -71,15 +71,31 @@
     <Content Include="App_Data\StationaryDB_log.ldf">
       <DependentUpon>StationaryDB.mdf</DependentUpon>
     </Content>
+    <Content Include="changepassword.aspx" />
+    <Content Include="CustomError\error400.html" />
+    <Content Include="CustomError\error401.html" />
     <Content Include="CustomError\GenericError.html" />
+    <Content Include="CustomError\HTTP403.html" />
     <Content Include="CustomError\HTTP404.html" />
     <Content Include="CustomError\HTTP500.html" />
+    <Content Include="Global.asax" />
     <Content Include="Loginpage.aspx" />
     <Content Include="RegistrationForm.aspx" />
     <Content Include="successpage.aspx" />
+    <Content Include="verifyemail.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="changepassword.aspx.cs">
+      <DependentUpon>changepassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="changepassword.aspx.designer.cs">
+      <DependentUpon>changepassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Loginpage.aspx.cs">
       <DependentUpon>Loginpage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -101,6 +117,13 @@
     </Compile>
     <Compile Include="successpage.aspx.designer.cs">
       <DependentUpon>successpage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="verifyemail.aspx.cs">
+      <DependentUpon>verifyemail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="verifyemail.aspx.designer.cs">
+      <DependentUpon>verifyemail.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

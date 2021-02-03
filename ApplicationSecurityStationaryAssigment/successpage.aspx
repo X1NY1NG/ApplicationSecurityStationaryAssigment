@@ -9,6 +9,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Button ID="changepassword" runat="server" OnClick="changepassword_Click" Text="Change Password" />
+            <br />
+            <br />
             <asp:Button ID="logoutbutton" runat="server" OnClick="logoutbutton_Click" Text="Logout" />
         </div>
     </form>

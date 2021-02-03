@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RegistrationForm.aspx.cs" Inherits="ApplicationSecurityStationaryAssigment.RegistrationForm" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RegistrationForm.aspx.cs" Inherits="ApplicationSecurityStationaryAssigment.RegistrationForm"  %>
 
 <!DOCTYPE html>
 
@@ -33,7 +33,7 @@
         }
         #strength{
             margin-top:-10px;
-            margin-left:-275px;
+            margin-left:-520px;
         }
         .shifting{
             margin-left:280px;
@@ -79,315 +79,23 @@
             height: 11px;
         }
         .auto-style28 {
-            width: 329px;
+            width: 504px;
         }
         .auto-style29 {
-            width: 329px;
+            width: 504px;
             height: 36px;
         }
         .auto-style30 {
-            width: 329px;
+            width: 504px;
             height: 20px;
         }
         .auto-style31 {
-            width: 329px;
+            width: 504px;
             height: 11px;
         }
     </style>
     
-    <script type="text/javascript">
-        var emailok = "false";
-        var passwordok = "false";
-        var monthok = "false";
-        var yearok = "false";
-        var creditcards = "false";
-        var cvvok = "false";
-        
-        function validate() {
-            passwordok = "false";
-            var strengthBar = document.getElementById("strength")
-            var strength = 0;
-            var str = document.getElementById('<%=tbpassword.ClientID %>').value;
 
-            if (str.length < 8) {
-
-                document.getElementById("lbfeedback").innerHTML = "Password Length Must be at least 8 Characters"
-                document.getElementById("lbfeedback").style.color = "Red";
-
-                
-            } else {
-                strength = strength + 1;
-            }
-            if (str.search(/[0-9]/) == -1) {
-
-                document.getElementById("lbfeedback").innerHTML = "Password require at least 1 number";
-                document.getElementById("lbfeedback").style.color = "Red";
-               
-            } else {
-                strength = strength + 1;
-            }
-            if (str.search(/[a-z]/) == -1) {
-                
-                document.getElementById("lbfeedback").innerHTML = "Password require at least 1 LowerCase";
-                document.getElementById("lbfeedback").style.color = "Red";
-
-                
-            } else {
-                strength = strength + 1;
-            }
-            if (str.search(/[A-Z]/) == -1) {
-                
-                document.getElementById("lbfeedback").innerHTML = "Password require at least 1 UpperCase";
-                document.getElementById("lbfeedback").style.color = "Red";
-                
-            } else {
-                strength = strength + 1;
-            }
-            if (str.search(/[^a-zA-Z0-9]/) == -1) {
-                
-                document.getElementById("lbfeedback").innerHTML = "Password require at least 1 Special Character";
-                document.getElementById("lbfeedback").style.color = "Red";
-                
-            } else {
-                strength = strength + 1;
-            }
-            if (strength == 5) {
-
-                document.getElementById("lbfeedback").innerHTML = "Excellent!";
-                document.getElementById("lbfeedback").style.color = "Blue";
-                passwordok = "true";
-            }
-
-            switch (strength) {
-                case 0:
-                    strengthBar.value = 0;
-                    
-                    
-                    
-                    break
-                case 1:
-                    strengthBar.value = 20;
-                    document.getElementById("Label2").innerHTML = "Very Weak"
-                    
-                    
-                    break
-                case 2:
-                    strengthBar.value = 40;
-                    document.getElementById("Label2").innerHTML = "Weak"
-                    
-                    break
-                case 3:
-                    strengthBar.value = 60;
-                    document.getElementById("Label2").innerHTML = "Medium"
-                    
-                    break
-                case 4:
-                    strengthBar.value = 80;
-                    document.getElementById("Label2").innerHTML = "Strong"
-                    
-                    break
-                case 5:
-                    strengthBar.value = 100;
-                    document.getElementById("Label2").innerHTML = "Very Strong"
-                    
-                    
-                    break
-
-            }
-
-        }
-        
-        function myvisafunction() {
-            creditcards = "false";
-            var oldchange = document.getElementById('<%=tbcreditcardno.ClientID %>').value;
-            var newchange = oldchange;
-            var beforechange = oldchange.split(" ").join("");
-            
-            var changing = beforechange.match(/.{1,4}/g);
-            if (changing !=null) {
-                newchange = changing.join(" ");
-            }
-            
-            document.getElementById('<%=tbcreditcardno.ClientID %>').value = newchange
-            
-            var visaRegEx = /^([4][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{1}|[4][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
-            var masterRegEx = /^([5][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
-            var amexRegEx = /^([3][47\t]{1}[0-9]{2}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{3})$/;
-            var discRegEx = /^([6][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
-            if (visaRegEx.test(newchange)) {
-                document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-visa' style=' color:navy;font-size:20px;'></i>";
-                creditcards = "true";
-            } else if (masterRegEx.test(newchange)) {
-                document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-mastercard' style='color:red;font-size:20px;'></i>";
-                creditcards = "true";
-            } else if (amexRegEx.test(newchange)) {
-                document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-amex' style='  color:blue;font-size:20px;'></i>";
-                creditcards = "true";
-            } else if (discRegEx.test(newchange)) {
-                document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-discover' style='color:orange;font-size:20px;'></i>";
-                creditcards = "true";
-            } else {
-                document.getElementById("creditcardvalidate").innerHTML = "Invalidate Credit Card";
-                document.getElementById("creditcardvalidate").style.color = "Invalidate Credit Card";
-            }
-        }
-        function mycvvfunction(doesthiswork) {
-            cvvok = "false";
-            var thevalue = doesthiswork;
-            
-            var thecvv = /^([0-9]{3,4})$/;
-            if (thecvv.test(thevalue)) {
-                document.getElementById("cvvvalidate").innerHTML = "<i class='fa fa-check'></i>";
-                document.getElementById("cvvvalidate").style.color = "green";
-                cvvok = "true";
-            }
-        }
-        function myyearfunction(theyears) {
-            yearok = "false";
-            var theyear = theyears;
-            var theyearformat = /^([2][0][2][1-9])$/;
-            if (theyearformat.test(theyear)) {
-                document.getElementById("yearvalidate").innerHTML = "<i class='fa fa-check'></i>";
-                document.getElementById("yearvalidate").style.color = "green";
-                yearok = "true";
-            } else {
-                document.getElementById("yearvalidate").innerHTML = "Invalid Year"
-                document.getElementById("yearvalidate").style.color = "red";
-            }
-            if (document.getElementById("<%=tbmonth.ClientID %>") != null) {
-                var themonthselected = document.getElementById("<%=tbmonth.ClientID %>").value;
-                mymonthfunction(themonthselected);
-            }
-        }
-        function mymonthfunction(themonths) {
-            monthok = "false";
-            var thedate = new Date().getMonth();
-            var theint = parseFloat(thedate)+1;
-            var theyear = new Date().getFullYear().toString();
-            console.log(theyear);
-            console.log(theint);
-            var themonth = parseFloat(themonths);
-            console.log(themonth);
-            var themonthformat = /^([1-9]{1}|[1][012\t])$/;
-            if (themonthformat.test(themonth)) {
-                if (document.getElementById("<%=tbyear.ClientID %>") != null) {
-                    var theyearselected = document.getElementById("<%=tbyear.ClientID %>").value;
-                    console.log(theyearselected);
-                    if (theyearselected == theyear) {
-                        if (themonth < theint) {
-                            document.getElementById("monthvalidate").innerHTML = "Invalid Month"
-                            document.getElementById("monthvalidate").style.color = "red";
-                            
-                        } else {
-                            document.getElementById("monthvalidate").innerHTML = "<i class='fa fa-check'></i>";
-                            document.getElementById("monthvalidate").style.color = "green";
-                            monthok = "true";
-                            
-                        }
-                    } else {
-                        document.getElementById("monthvalidate").innerHTML = "<i class='fa fa-check'></i>";
-                        document.getElementById("monthvalidate").style.color = "green";
-                        monthok = "true";
-                    }
-                }
-                
-                
-                
-                
-            } else {
-                document.getElementById("monthvalidate").innerHTML = "Invalid Month"
-                document.getElementById("monthvalidate").style.color = "red";
-            }
-        }
-        function myemailfunction(theemail) {
-            emailok = "false";
-            var theemailformat = /^\w+[\+\.\w-]*@([\w-]+\.)*\w+[\w-]*\.([a-z]{2,4}|\d+)$/i;
-            if (theemailformat.test(theemail)) {
-                document.getElementById("emailvalidate").innerHTML = "<i class='fa fa-check'></i>";
-                document.getElementById("emailvalidate").style.color = "green";
-                emailok = "true";
-
-            } else {
-                document.getElementById("emailvalidate").innerHTML = "Invalid Month"
-                document.getElementById("emailvalidate").style.color = "red";
-                
-            }
-        }
-        function SomeMethod() {
-            
-            document.getElementById("<%=Label3.ClientID %>").innerHTML = "";
-            
-            if (document.getElementById("<%=tbfirstname.ClientID %>").value == "") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up first name";
-            }
-            if (document.getElementById("<%=tblastname.ClientID %>").value == "") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up last name";
-            }
-            if (document.getElementById("<%=tbbirthdate.ClientID %>").value == "") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up birthdate";
-            }
-            if (emailok == "false") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter email correctly";
-            }
-            if (document.getElementById("<%=tbnameoncard.ClientID %>").value == "") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up credit card name";
-            }
-            if (creditcards == "false") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter Credit Card Number correctly";
-            }
-            if (yearok == "false" || monthok=="false") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter Expiry Date correctly";
-            }
-
-            if (cvvok == "false") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter CVV correctly";
-            }
-            if (passwordok == "false") {
-                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter password correctly";
-            }
-            if (document.getElementById("<%=tbfirstname.ClientID %>").value != "") {
-                document.getElementById("<%=tbfirstname.ClientID %>").value = encodeURI(document.getElementById("<%=tbfirstname.ClientID %>").value)
-                console.log(document.getElementById("<%=tbfirstname.ClientID %>").value)
-                return false;
-                if (document.getElementById("<%=tblastname.ClientID %>").value != "") {
-                    if (document.getElementById("<%=tbbirthdate.ClientID %>").value != "") {
-                        if (document.getElementById("<%=tbnameoncard.ClientID %>").value != "") {
-                            if (emailok == "true" && passwordok == "true" && creditcards == "true" && cvvok == "true" && monthok == "true" && yearok == "true") {
-
-                            } else {
-                                return false;
-                            }
-                        } else {
-                            return false;
-                        }
-
-                        
-                        
-                    } else {
-                        
-                        return false;
-                        
-                    }
-
-                } else {
-                    
-                    return false;
-                }
-
-            } else {
-                
-                return false;
-            }
-
-
-        }
-        grecaptcha.ready(function () {
-            grecaptcha.execute('6LeEuRAaAAAAACge2ZqrBVQSkZHV9YguERDg33sB', { action: 'login' }).then(function (token) {
-                document.getElementById("g-recaptcha-response").value = token;
-            });
-        });
-
-    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -550,4 +258,357 @@
         </div>
     </form>
 </body>
+        <script type="text/javascript">
+            document.getElementById('<%=tbemail.ClientID %>').value = "";
+            document.getElementById('<%=tbcreditcardno.ClientID %>').value = "";
+            document.getElementById('<%=tbcvv.ClientID %>').value = "";
+            document.getElementById('<%=tbyear.ClientID %>').value = "";
+            document.getElementById('<%=tbmonth.ClientID %>').value = "";
+            
+
+            var emailok = "false";
+            var passwordok = "false";
+            var monthok = "false";
+            var yearok = "false";
+            var creditcards = "false";
+            var cvvok = "false";
+           
+
+            function validate() {
+                passwordok = "false";
+                var strengthBar = document.getElementById("strength")
+                var strength = 0;
+                var str = document.getElementById('<%=tbpassword.ClientID %>').value;
+
+                if (str.length < 8) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Password Length Must be at least 8 Characters"
+                    document.getElementById("lbfeedback").style.color = "Red";
+
+
+                } else {
+                    strength = strength + 1;
+                }
+                if (str.search(/[0-9]/) == -1) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Password require at least 1 number";
+                    document.getElementById("lbfeedback").style.color = "Red";
+
+                } else {
+                    strength = strength + 1;
+                }
+                if (str.search(/[a-z]/) == -1) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Password require at least 1 LowerCase";
+                    document.getElementById("lbfeedback").style.color = "Red";
+
+
+                } else {
+                    strength = strength + 1;
+                }
+                if (str.search(/[A-Z]/) == -1) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Password require at least 1 UpperCase";
+                    document.getElementById("lbfeedback").style.color = "Red";
+
+                } else {
+                    strength = strength + 1;
+                }
+                if (str.search(/[^a-zA-Z0-9]/) == -1) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Password require at least 1 Special Character";
+                    document.getElementById("lbfeedback").style.color = "Red";
+
+                } else {
+                    strength = strength + 1;
+                }
+                if (strength == 5) {
+
+                    document.getElementById("lbfeedback").innerHTML = "Excellent!";
+                    document.getElementById("lbfeedback").style.color = "Blue";
+                    passwordok = "true";
+                }
+
+                switch (strength) {
+                    case 0:
+                        strengthBar.value = 0;
+
+
+
+                        break
+                    case 1:
+                        strengthBar.value = 20;
+                        document.getElementById("Label2").innerHTML = "Very Weak"
+
+
+                        break
+                    case 2:
+                        strengthBar.value = 40;
+                        document.getElementById("Label2").innerHTML = "Weak"
+
+                        break
+                    case 3:
+                        strengthBar.value = 60;
+                        document.getElementById("Label2").innerHTML = "Medium"
+
+                        break
+                    case 4:
+                        strengthBar.value = 80;
+                        document.getElementById("Label2").innerHTML = "Strong"
+
+                        break
+                    case 5:
+                        strengthBar.value = 100;
+                        document.getElementById("Label2").innerHTML = "Very Strong"
+
+
+                        break
+
+                }
+
+            }
+
+            function myvisafunction() {
+                creditcards = "false";
+                var oldchange = document.getElementById('<%=tbcreditcardno.ClientID %>').value;
+            var newchange = oldchange;
+            var beforechange = oldchange.split(" ").join("");
+
+            var changing = beforechange.match(/.{1,4}/g);
+            if (changing != null) {
+                newchange = changing.join(" ");
+            }
+
+            document.getElementById('<%=tbcreditcardno.ClientID %>').value = newchange
+
+                var visaRegEx = /^([4][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{1}|[4][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
+                var masterRegEx = /^([5][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
+                var amexRegEx = /^([3][47\t]{1}[0-9]{2}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{3})$/;
+                var discRegEx = /^([6][0-9]{3}[\s][0-9]{4}[\s][0-9]{4}[\s][0-9]{4})$/;
+                if (visaRegEx.test(newchange)) {
+                    document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-visa' style=' color:navy;font-size:20px;'></i>";
+                    creditcards = "true";
+                } else if (masterRegEx.test(newchange)) {
+                    document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-mastercard' style='color:red;font-size:20px;'></i>";
+                    creditcards = "true";
+                } else if (amexRegEx.test(newchange)) {
+                    document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-amex' style='  color:blue;font-size:20px;'></i>";
+                    creditcards = "true";
+                } else if (discRegEx.test(newchange)) {
+                    document.getElementById("creditcardvalidate").innerHTML = "<i class='fa fa-cc-discover' style='color:orange;font-size:20px;'></i>";
+                    creditcards = "true";
+                } else {
+                    document.getElementById("creditcardvalidate").innerHTML = "Invalid Credit Card";
+                    document.getElementById("creditcardvalidate").style.color = "Invalid Credit Card";
+                }
+            }
+            function mycvvfunction(doesthiswork) {
+                cvvok = "false";
+                var thevalue = doesthiswork;
+
+                var thecvv = /^([0-9]{3,4})$/;
+                if (thecvv.test(thevalue)) {
+                    document.getElementById("cvvvalidate").innerHTML = "<i class='fa fa-check'></i>";
+                    document.getElementById("cvvvalidate").style.color = "green";
+                    cvvok = "true";
+                }
+            }
+            function myyearfunction(theyears) {
+                yearok = "false";
+                var theyear = theyears;
+                var theyearformat = /^([2][0][2][1-9])$/;
+                if (theyearformat.test(theyear)) {
+                    document.getElementById("yearvalidate").innerHTML = "<i class='fa fa-check'></i>";
+                    document.getElementById("yearvalidate").style.color = "green";
+                    yearok = "true";
+                } else {
+                    document.getElementById("yearvalidate").innerHTML = "Invalid Year"
+                    document.getElementById("yearvalidate").style.color = "red";
+                }
+                if (document.getElementById("<%=tbmonth.ClientID %>") != null) {
+                var themonthselected = document.getElementById("<%=tbmonth.ClientID %>").value;
+                    mymonthfunction(themonthselected);
+                }
+            }
+            function mymonthfunction(themonths) {
+                monthok = "false";
+                var thedate = new Date().getMonth();
+                var theint = parseFloat(thedate) + 1;
+                var theyear = new Date().getFullYear().toString();
+                console.log(theyear);
+                console.log(theint);
+                var themonth = parseFloat(themonths);
+                console.log(themonth);
+                var themonthformat = /^([1-9]{1}|[1][012\t])$/;
+                if (themonthformat.test(themonth)) {
+                    if (document.getElementById("<%=tbyear.ClientID %>") != null) {
+                    var theyearselected = document.getElementById("<%=tbyear.ClientID %>").value;
+                        console.log(theyearselected);
+                        if (theyearselected == theyear) {
+                            if (themonth < theint) {
+                                document.getElementById("monthvalidate").innerHTML = "Invalid Month"
+                                document.getElementById("monthvalidate").style.color = "red";
+
+                            } else {
+                                document.getElementById("monthvalidate").innerHTML = "<i class='fa fa-check'></i>";
+                                document.getElementById("monthvalidate").style.color = "green";
+                                monthok = "true";
+
+                            }
+                        } else {
+                            document.getElementById("monthvalidate").innerHTML = "<i class='fa fa-check'></i>";
+                            document.getElementById("monthvalidate").style.color = "green";
+                            monthok = "true";
+                        }
+                    }
+
+
+
+
+                } else {
+                    document.getElementById("monthvalidate").innerHTML = "Invalid Month"
+                    document.getElementById("monthvalidate").style.color = "red";
+                }
+            }
+            function myemailfunction(theemail) {
+                emailok = "false";
+                var theemailformat = /^\w+[\+\.\w-]*@([\w-]+\.)*\w+[\w-]*\.([a-z]{2,4}|\d+)$/i;
+                if (theemailformat.test(theemail)) {
+                    document.getElementById("emailvalidate").innerHTML = "<i class='fa fa-check'></i>";
+                    document.getElementById("emailvalidate").style.color = "green";
+                    emailok = "true";
+
+                } else {
+                    document.getElementById("emailvalidate").innerHTML = "Invalid Email"
+                    document.getElementById("emailvalidate").style.color = "red";
+
+                }
+            }
+            
+            function SomeMethod() {
+
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = "";
+
+            if (document.getElementById("<%=tbfirstname.ClientID %>").value == "") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up first name";
+                return false;
+            }
+            if (document.getElementById("<%=tblastname.ClientID %>").value == "") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up last name";
+                return false;
+            }
+            if (document.getElementById("<%=tbbirthdate.ClientID %>").value == "") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up birthdate";
+                return false;
+            }
+            if (emailok == "false") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter email correctly";
+                return false;
+            }
+            if (document.getElementById("<%=tbnameoncard.ClientID %>").value == "") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please fill up credit card name";
+                return false;
+
+            } else {
+                var thenameformat = /^([A-Za-z]{1,50})$/;
+                var thecredname = document.getElementById("<%=tbnameoncard.ClientID %>").value;
+                if (thenameformat.test(thecredname)) {
+                    
+
+                } else {
+                    document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter valid credit card name";
+                    return false;
+                }
+            }
+            if (creditcards == "false") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter Credit Card Number correctly";
+                return false;
+            }
+            if (yearok == "false" || monthok=="false") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter Expiry Date correctly";
+                return false;
+            }
+
+            if (cvvok == "false") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter CVV correctly";
+                return false;
+            }
+            if (passwordok == "false") {
+                document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please enter password correctly";
+                return false;
+            }
+             
+            if (document.getElementById('<%=tbpassword.ClientID %>').value != "") {
+                var thepasswordformat = /([<>"/'#&]{1,100})$/;
+
+                var thepassname = document.getElementById("<%=tbpassword.ClientID %>").value;
+                if (thepasswordformat.test(thepassname)) {
+                    document.getElementById("<%=Label3.ClientID %>").innerHTML = document.getElementById("<%=Label3.ClientID %>").innerHTML + "<br/> Please do not enter script tags";
+                    return false;
+
+                } else {
+                    
+                }
+            } 
+            if (document.getElementById("<%=tbfirstname.ClientID %>").value != "") {
+                document.getElementById("<%=tbfirstname.ClientID %>").value = encodeHtml(document.getElementById("<%=tbfirstname.ClientID %>").value);
+                
+                
+                if (document.getElementById("<%=tblastname.ClientID %>").value != "") {
+                    document.getElementById("<%=tblastname.ClientID %>").value = encodeHtml(document.getElementById("<%=tblastname.ClientID %>").value);
+
+                    if (document.getElementById("<%=tbbirthdate.ClientID %>").value != "") {
+                        if (document.getElementById("<%=tbnameoncard.ClientID %>").value != "") {
+
+                                if (emailok == "true" && passwordok == "true" && creditcards == "true" && cvvok == "true" && monthok == "true" && yearok == "true") {
+
+                                } else {
+                                    return false;
+                                }
+                        } else {
+                                return false;
+                        }
+
+
+
+                        } else {
+
+                            return false;
+
+                        }
+
+                    } else {
+
+                        return false;
+                    }
+
+                } else {
+
+                    return false;
+                }
+
+
+            }
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LeEuRAaAAAAACge2ZqrBVQSkZHV9YguERDg33sB', { action: 'login' }).then(function (token) {
+                    document.getElementById("g-recaptcha-response").value = token;
+                });
+            });
+             
+            
+
+            
+            
+
+            function encodeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&#38;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;")
+                    .replace(/#/g, "&#35;");
+            }
+
+        </script>
 </html>
