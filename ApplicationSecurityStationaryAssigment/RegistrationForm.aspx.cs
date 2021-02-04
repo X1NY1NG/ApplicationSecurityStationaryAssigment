@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -401,10 +402,10 @@ namespace ApplicationSecurityStationaryAssigment
                         client.EnableSsl = true;
                         client.Host = "smtp.gmail.com";
                         client.Port = 587;
-
+                        System.Diagnostics.Debug.WriteLine(WebConfigurationManager.AppSettings["email"]);
                         // setup Smtp authentication
                         System.Net.NetworkCredential credentials =
-                        new System.Net.NetworkCredential("TohXinYingassignment@gmail.com", "190376A190376A");
+                        new System.Net.NetworkCredential(WebConfigurationManager.AppSettings["email"], WebConfigurationManager.AppSettings["password"]);
                         client.UseDefaultCredentials = false;
                         client.Credentials = credentials;
 
@@ -414,7 +415,7 @@ namespace ApplicationSecurityStationaryAssigment
 
                         msg.Subject = "This is a test Email subject";
                         msg.IsBodyHtml = true;
-                        msg.Body = string.Format("<html><head></head><body><a href='https://localhost:44354/verifyemail.aspx?param1=" + theuuid+"'>Click here</a></body>");
+                        msg.Body = string.Format("<html><head></head><body><a href='https://localhost:44354/verifyemail.aspx?param1=" + theuuid+"'>Click this link to verify email</a></body>");
 
                         try
                         {
@@ -433,7 +434,7 @@ namespace ApplicationSecurityStationaryAssigment
                 }
                 else
                 {
-
+                    System.Diagnostics.Debug.WriteLine("something is wrong");
                 }
             }
         }

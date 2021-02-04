@@ -39,6 +39,37 @@
             }
 
             if (document.getElementById("<%=newpassword.ClientID %>").value != "") {
+                var str = document.getElementById('<%=newpassword.ClientID %>').value;
+
+                if (str.length < 8) {
+
+                    document.getElementById("<%=Label2.ClientID %>").innerHTML = "Password Length Must be at least 8 Characters"
+                    return false;
+
+
+                } 
+                if (str.search(/[0-9]/) == -1) {
+
+                    document.getElementById("<%=Label2.ClientID %>").innerHTML = "Password require at least 1 number";
+                    return false;
+                }
+                if (str.search(/[a-z]/) == -1) {
+
+                    document.getElementById("<%=Label2.ClientID %>").innerHTML = "Password require at least 1 LowerCase";
+                    return false;
+                } 
+                if (str.search(/[A-Z]/) == -1) {
+
+                    document.getElementById("<%=Label2.ClientID %>").innerHTML = "Password require at least 1 UpperCase";
+                    return false;
+
+                }
+                if (str.search(/[^a-zA-Z0-9]/) == -1) {
+
+                    document.getElementById("<%=Label2.ClientID %>").innerHTML = "Password require at least 1 Special Character";
+                    return false;
+
+                } 
                 var thepasswordformats = /([<>"/'#&]{1,100})$/;
                 var thepassnames = document.getElementById("<%=newpassword.ClientID %>").value;
                 if (thepasswordformats.test(thepassnames)) {
