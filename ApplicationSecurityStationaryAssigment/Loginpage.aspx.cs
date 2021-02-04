@@ -72,9 +72,22 @@ namespace ApplicationSecurityStationaryAssigment
                 SqlCommand xcommand = new SqlCommand(xsql, xconnection);
                 xcommand.Parameters.AddWithValue("@parastatus", "enabled");
                 xcommand.Parameters.AddWithValue("@paraaccountlocktime", thetimenow);
-                xconnection.Open();
-                int xresult = xcommand.ExecuteNonQuery();
-                xconnection.Close();
+                try
+                {
+                    xconnection.Open();
+                    int xresult = xcommand.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+
+                }
+                finally
+                {
+                    xconnection.Close();
+                }
+                
 
                 
                 var executeaction=verifying();
@@ -141,6 +154,8 @@ namespace ApplicationSecurityStationaryAssigment
                                         Session["LoggedIn"] = tbemail.Text;
                                         string guid = Guid.NewGuid().ToString();
                                         Session["AuthToken"] = guid;
+
+                                        string restartaccountlock = restartaccountlockcount(tbemail.Text);
 
                                         Response.Cookies.Add(new HttpCookie("AuthToken", guid));
                                         Response.Redirect("successpage.aspx", false);
@@ -265,9 +280,13 @@ namespace ApplicationSecurityStationaryAssigment
                 {
 
                 }
-                
 
-                
+
+
+            }
+            else
+            {
+                robottext.Text = "You are a robot";
             }
 
             
@@ -423,6 +442,27 @@ namespace ApplicationSecurityStationaryAssigment
 
 
         }
+        protected string restartaccountlockcount(string emailids)
+        {
+            string MYDBConnectionStrings = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            SqlConnection connections = new SqlConnection(MYDBConnectionStrings);
+            string sqls = "UPDATE thedetails SET failedattempts=@paraattempts where EmailAddress=@emailid  ";
+            SqlCommand commands = new SqlCommand(sqls, connections);
+            commands.Parameters.AddWithValue("@paraattempts", 0);
+            commands.Parameters.AddWithValue("@emailid", emailids);
 
+
+
+
+            connections.Open();
+            int results = commands.ExecuteNonQuery();
+            connections.Close();
+            return "ok";
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("RegistrationForm.aspx", false);
+        }
     }
 }

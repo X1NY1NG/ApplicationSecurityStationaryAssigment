@@ -19,10 +19,25 @@ namespace ApplicationSecurityStationaryAssigment
             string sqls = "UPDATE thedetails SET failedattempts=@paraattempts ";
             SqlCommand commands = new SqlCommand(sqls, connections);
             commands.Parameters.AddWithValue("@paraattempts",0);
-           
-            connections.Open();
-            int results = commands.ExecuteNonQuery();
-            connections.Close();
+
+
+            try
+            {
+                connections.Open();
+                int results = commands.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                
+            }
+            finally
+            {
+                connections.Close();
+            }
+
+            
 
             
 

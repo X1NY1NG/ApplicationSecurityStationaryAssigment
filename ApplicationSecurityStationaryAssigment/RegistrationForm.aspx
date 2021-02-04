@@ -249,6 +249,12 @@
                     <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
+                    <td class="auto-style2" colspan="2">
+                        <asp:Label ID="robottext" runat="server"></asp:Label>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
                     <td class="auto-style3" colspan="2">
                         <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" OnClientClick="return SomeMethod();" />
                     </td>
@@ -272,7 +278,13 @@
             var yearok = "false";
             var creditcards = "false";
             var cvvok = "false";
-           
+
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LeEuRAaAAAAACge2ZqrBVQSkZHV9YguERDg33sB', { action: 'login' }).then(function (token) {
+                    document.getElementById("g-recaptcha-response").value = token;
+                });
+            });
 
             function validate() {
                 passwordok = "false";
@@ -539,7 +551,7 @@
             }
              
             if (document.getElementById('<%=tbpassword.ClientID %>').value != "") {
-                var thepasswordformat = /([<>"/'#&]{1,100})$/;
+                var thepasswordformat = /((?=.*?["<>'&#]).{1,})$/
 
                 var thepassname = document.getElementById("<%=tbpassword.ClientID %>").value;
                 if (thepasswordformat.test(thepassname)) {
@@ -547,6 +559,7 @@
                     return false;
 
                 } else {
+                    
                     
                 }
             } 
@@ -589,11 +602,7 @@
 
 
             }
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6LeEuRAaAAAAACge2ZqrBVQSkZHV9YguERDg33sB', { action: 'login' }).then(function (token) {
-                    document.getElementById("g-recaptcha-response").value = token;
-                });
-            });
+            
              
             
 

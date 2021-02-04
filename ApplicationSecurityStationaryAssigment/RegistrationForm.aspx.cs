@@ -140,7 +140,7 @@ namespace ApplicationSecurityStationaryAssigment
             }
             else
             {
-                tblastname.Text = HttpUtility.HtmlEncode(tblastname.Text);
+                
                 System.Diagnostics.Debug.WriteLine(tblastname.Text);
             }
             if (String.IsNullOrEmpty(tbemail.Text))
@@ -259,9 +259,27 @@ namespace ApplicationSecurityStationaryAssigment
                     
                 }
             }
-            
-            
-            
+            if (String.IsNullOrEmpty(tbpassword.Text))
+            {
+                Label3.Text = Label3.Text + "Password Field is required" + "<br/>"; ;
+                
+            }
+            else
+            {
+
+                if (Regex.IsMatch(tbpassword.Text, "['<>&#\"]"))
+                {
+                    Label3.Text = Label3.Text + "Please Enter Valid Password" + "<br/>";
+                }
+                else
+                {
+                    
+
+                }
+            }
+
+
+
 
             if (String.IsNullOrEmpty(Label3.Text))
             {
@@ -346,8 +364,7 @@ namespace ApplicationSecurityStationaryAssigment
                         var theuuid = Guid.NewGuid().ToString();
 
 
-                        try
-                        {
+                        
 
                             using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                             {
@@ -379,9 +396,23 @@ namespace ApplicationSecurityStationaryAssigment
                                         cmd.Parameters.AddWithValue("@VerifiedAccount", "No");
                                         cmd.Parameters.AddWithValue("@AuthenticationToken",theuuid);
                                         cmd.Connection = con;
-                                        con.Open();
-                                        cmd.ExecuteNonQuery();
-                                        con.Close();
+                                        
+                                        try
+                                        {
+                                            con.Open();
+                                            cmd.ExecuteNonQuery();
+                                        
+                                        }
+                                        catch(Exception ex)
+                                        {
+                                            System.Diagnostics.Debug.WriteLine(ex.ToString());
+                                            Label3.Text = "Error";
+                                        }
+                                        finally
+                                        {
+                                            con.Close();
+                                        }
+                                        
 
 
                                         
@@ -390,12 +421,8 @@ namespace ApplicationSecurityStationaryAssigment
                                     }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine(ex.ToString());
-                            Label3.Text = "Error";
-                        }
+                        
+                        
 
                         SmtpClient client = new SmtpClient();
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -436,6 +463,10 @@ namespace ApplicationSecurityStationaryAssigment
                 {
                     System.Diagnostics.Debug.WriteLine("something is wrong");
                 }
+            }
+            else
+            {
+                robottext.Text = "you are a robot";
             }
         }
         protected byte[] encryptData(string data)

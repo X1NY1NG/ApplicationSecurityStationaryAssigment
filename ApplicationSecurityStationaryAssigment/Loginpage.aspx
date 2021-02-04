@@ -22,6 +22,9 @@
             <br />
             <asp:Button ID="submitbutton" runat="server" OnClick="submitbutton_Click" Text="submit" OnClientClick="return SomeMethod();" />
             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Register" />
+            <br />
+            <asp:Label ID="robottext" runat="server"></asp:Label>
         </div>
     </form>
     <script>
@@ -47,12 +50,13 @@
                 return false;
             }
             if (document.getElementById("<%=tbpassword.ClientID %>").value != "") {
-                var thepasswordformat = /([<>"/'#&]{1,100})$/;
+                var thepasswordformat = /((?=.*?["<>'&#]).{1,})$/;
                 var thepassname = document.getElementById("<%=tbpassword.ClientID %>").value;
                 if (thepasswordformat.test(thepassname)) {
                     document.getElementById("<%=lbfeedback.ClientID %>").innerHTML = "Invalid Password format";
                     return false;
                 } else {
+                    
 
                 }
 

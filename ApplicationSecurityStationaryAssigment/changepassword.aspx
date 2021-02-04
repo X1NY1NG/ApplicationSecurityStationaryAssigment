@@ -10,12 +10,13 @@
     <form id="form1" runat="server">
         <div>
             <asp:Label runat="server" Text="Enter Current Password:"></asp:Label>
-            <asp:TextBox ID="currentpassword" runat="server"></asp:TextBox>
+            <asp:TextBox ID="currentpassword" runat="server" TextMode="Password"></asp:TextBox>
             <br />
             <asp:Label ID="Label1" runat="server" Text="New Password:"></asp:Label>
-            <asp:TextBox ID="newpassword" runat="server"></asp:TextBox>
+            <asp:TextBox ID="newpassword" runat="server" TextMode="Password"></asp:TextBox>
             <br />
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" OnClientClick="return SomeMethod();" />
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Back" />
             <br />
             <asp:Label ID="Label2" runat="server"></asp:Label>
         </div>
@@ -24,13 +25,13 @@
     <script>
         function SomeMethod() {
             if (document.getElementById("<%=currentpassword.ClientID %>").value != "") {
-                var thepasswordformat = /([<>"/'#&]{1,100})$/;
+                var thepasswordformat = /((?=.*?["<>'&#]).{1,})$/;
                 var thepassname = document.getElementById("<%=currentpassword.ClientID %>").value;
                 if (thepasswordformat.test(thepassname)) {
                     document.getElementById("<%=Label2.ClientID %>").innerHTML = "Invalid Password format";
                     return false;
                 } else {
-
+                    
                 }
 
             } else {
@@ -70,13 +71,13 @@
                     return false;
 
                 } 
-                var thepasswordformats = /([<>"/'#&]{1,100})$/;
+                var thepasswordformats = /((?=.*?["<>'&#]).{1,})$/;
                 var thepassnames = document.getElementById("<%=newpassword.ClientID %>").value;
                 if (thepasswordformats.test(thepassnames)) {
                     document.getElementById("<%=Label2.ClientID %>").innerHTML = "Invalid Password format";
                     return false;
                 } else {
-
+                    
                 }
 
             } else {

@@ -22,7 +22,7 @@ namespace ApplicationSecurityStationaryAssigment
                     string thedbvalue = retrievemaxtime(theuser);
                     if (thetimenow > Convert.ToDateTime(thedbvalue))
                     {
-                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Record Inserted Successfully')", true);
+                        
                         Response.Redirect("changepassword.aspx", false);
                     }
                 }

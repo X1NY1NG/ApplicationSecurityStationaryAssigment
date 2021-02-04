@@ -96,6 +96,9 @@ namespace ApplicationSecurityStationaryAssigment
                                         commands.Parameters.AddWithValue("@paraminage", endoflockout);
                                         commands.Parameters.AddWithValue("@paramaxage", maxage);
 
+
+
+
                                         connections.Open();
                                         int results = commands.ExecuteNonQuery();
                                         connections.Close();
@@ -152,7 +155,7 @@ namespace ApplicationSecurityStationaryAssigment
                             }
                             else if (splittingtime.Contains(stringplainHash))
                             {
-                                Label2.Text = "Please do not reuse the passwords?";
+                                Label2.Text = "Please do not reuse the passwords";
                             }
                             else{
                                 DateTime thetime = DateTime.Now;
@@ -331,5 +334,9 @@ namespace ApplicationSecurityStationaryAssigment
             return G;
         }
 
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("successpage.aspx", false);
+        }
     }
 }
