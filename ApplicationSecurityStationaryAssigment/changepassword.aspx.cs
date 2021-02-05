@@ -88,13 +88,14 @@ namespace ApplicationSecurityStationaryAssigment
                                         DateTime endoflockout = thetime.AddMinutes(5);
                                         DateTime maxage = thetime.AddMinutes(15);
                                         SqlConnection connections = new SqlConnection(MYDBConnectionString);
-                                        string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage ";
+                                        string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage where EmailAddress=@paraemail ";
                                         SqlCommand commands = new SqlCommand(sqls, connections);
                                         commands.Parameters.AddWithValue("@parapasswordhash", finalHash);
                                         commands.Parameters.AddWithValue("@parapasswordsalt", salt);
                                         commands.Parameters.AddWithValue("@paralistpwds", newpasswordlist);
                                         commands.Parameters.AddWithValue("@paraminage", endoflockout);
                                         commands.Parameters.AddWithValue("@paramaxage", maxage);
+                                        commands.Parameters.AddWithValue("@paraemail",userid);
 
 
 
@@ -116,13 +117,14 @@ namespace ApplicationSecurityStationaryAssigment
                                         DateTime endoflockout = thetime.AddMinutes(5);
                                         DateTime maxage = thetime.AddMinutes(15);
                                         SqlConnection connections = new SqlConnection(MYDBConnectionString);
-                                        string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage ";
+                                        string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage where EmailAddress=@paraemail";
                                         SqlCommand commands = new SqlCommand(sqls, connections);
                                         commands.Parameters.AddWithValue("@parapasswordhash", finalHash);
                                         commands.Parameters.AddWithValue("@parapasswordsalt", salt);
                                         commands.Parameters.AddWithValue("@paralistpwds", newpasswordlist);
                                         commands.Parameters.AddWithValue("@paraminage", endoflockout);
                                         commands.Parameters.AddWithValue("@paramaxage", maxage);
+                                        commands.Parameters.AddWithValue("@paraemail", userid);
 
                                         connections.Open();
                                         int results = commands.ExecuteNonQuery();
@@ -138,13 +140,15 @@ namespace ApplicationSecurityStationaryAssigment
                                     DateTime endoflockout = thetime.AddMinutes(5);
                                     DateTime maxage = thetime.AddMinutes(15);
                                     SqlConnection connections = new SqlConnection(MYDBConnectionString);
-                                    string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage ";
+                                    string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage where EmailAddress=@paraemail ";
                                     SqlCommand commands = new SqlCommand(sqls, connections);
                                     commands.Parameters.AddWithValue("@parapasswordhash", finalHash);
                                     commands.Parameters.AddWithValue("@parapasswordsalt", salt);
                                     commands.Parameters.AddWithValue("@paralistpwds", newpasswordlist);
                                     commands.Parameters.AddWithValue("@paraminage", endoflockout);
                                     commands.Parameters.AddWithValue("@paramaxage", maxage);
+                                    commands.Parameters.AddWithValue("@paraemail", userid);
+
 
                                     connections.Open();
                                     int results = commands.ExecuteNonQuery();
@@ -162,13 +166,14 @@ namespace ApplicationSecurityStationaryAssigment
                                 DateTime endoflockout = thetime.AddMinutes(5);
                                 DateTime maxage = thetime.AddMinutes(15);
                                 SqlConnection connections = new SqlConnection(MYDBConnectionString);
-                                string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage ";
+                                string sqls = "UPDATE thedetails SET Passwordhash=@parapasswordhash,Passwordsalt=@parapasswordsalt,listofpasswords=@paralistpwds,minimumpasswordage=@paraminage,maximumpasswordage=@paramaxage where EmailAddress=@paraemail ";
                                 SqlCommand commands = new SqlCommand(sqls, connections);
                                 commands.Parameters.AddWithValue("@parapasswordhash", finalHash);
                                 commands.Parameters.AddWithValue("@parapasswordsalt", salt);
                                 commands.Parameters.AddWithValue("@paralistpwds", newpasswordlist);
                                 commands.Parameters.AddWithValue("@paraminage", endoflockout);
                                 commands.Parameters.AddWithValue("@paramaxage", maxage);
+                                commands.Parameters.AddWithValue("@paraemail", userid);
 
                                 connections.Open();
                                 int results = commands.ExecuteNonQuery();

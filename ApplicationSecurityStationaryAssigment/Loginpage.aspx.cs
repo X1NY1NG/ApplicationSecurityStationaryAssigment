@@ -34,7 +34,7 @@ namespace ApplicationSecurityStationaryAssigment
         {
             bool result = true;
             string captchaResponse = Request.Form["g-recaptcha-response"];
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=6LeEuRAaAAAAACrdAGEPHsNy-Ftz_XMUOyK_c2ti &response=" + captchaResponse);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret= &response=" + captchaResponse);
 
             try
             {
@@ -44,6 +44,7 @@ namespace ApplicationSecurityStationaryAssigment
                     {
                         string jsonResponse = readStream.ReadToEnd();
                         
+
 
                         JavaScriptSerializer js = new JavaScriptSerializer();
                         MyObject jsonObject = js.Deserialize<MyObject>(jsonResponse);
@@ -68,10 +69,12 @@ namespace ApplicationSecurityStationaryAssigment
                 DateTime thetimenow = DateTime.Now;
                 string xMYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
                 SqlConnection xconnection = new SqlConnection(xMYDBConnectionString);
-                string xsql = "UPDATE thedetails SET status=@parastatus where @paraaccountlocktime>accountendlocktime ";
+                string xsql = "UPDATE thedetails SET status=@parastatus,failedattempts=@paraattempts where @paraaccountlocktime>accountendlocktime and status=@paralock ";
                 SqlCommand xcommand = new SqlCommand(xsql, xconnection);
                 xcommand.Parameters.AddWithValue("@parastatus", "enabled");
                 xcommand.Parameters.AddWithValue("@paraaccountlocktime", thetimenow);
+                xcommand.Parameters.AddWithValue("@paraattempts", 0);
+                xcommand.Parameters.AddWithValue("@paralock", "locked");
                 try
                 {
                     xconnection.Open();

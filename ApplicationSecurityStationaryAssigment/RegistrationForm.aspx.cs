@@ -31,7 +31,7 @@ namespace ApplicationSecurityStationaryAssigment
         {
             bool result = true;
             string captchaResponse = Request.Form["g-recaptcha-response"];
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=6LeEuRAaAAAAACrdAGEPHsNy-Ftz_XMUOyK_c2ti &response=" + captchaResponse);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret= &response=" + captchaResponse);
 
             try
             {
